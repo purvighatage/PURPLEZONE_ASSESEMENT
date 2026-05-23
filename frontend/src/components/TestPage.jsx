@@ -37,7 +37,7 @@ const quizStatements = [
   }
 ];
 
-function TestPage() {
+function TestPage({ onEdit }) {
   const [isTesting, setIsTesting] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0); // 0, 1, 2 = statements; 3 = Score Card
   const [selectedAnswers, setSelectedAnswers] = useState({}); // { [sId]: optionIndex }
@@ -138,7 +138,7 @@ function TestPage() {
           {/* Centered Edit Button */}
           <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
             <button 
-              onClick={() => setIsTesting(true)}
+              onClick={onEdit}
               style={{
                 background: '#E2E8F0', // Soft light gray pill button matching mockup exactly
                 color: '#4A5568',

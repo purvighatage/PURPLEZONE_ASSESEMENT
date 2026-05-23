@@ -16,11 +16,10 @@ const analyzeGrammar = (statementId, text) => {
   const feedback = [];
   
   if (statementId === 's1' || statementId.toString().includes('s1')) {
-    // Statement 1: "she dont like going to the store on sundays"
+    // Statement 1: "She dont have any idea how to fix it."
     const hasCapitalShe = /^[S]he\b/.test(norm);
     const hasCorrectDoesnt = /\b(doesn't|does not)\b/i.test(norm);
     const hasProperDoesnt = /\b(doesn't|does not)\b/.test(norm); // case sensitive check
-    const hasCapitalSundays = /\bSundays\b/.test(norm);
     const hasPeriod = norm.endsWith('.');
 
     feedback.push({
@@ -34,36 +33,31 @@ const analyzeGrammar = (statementId, text) => {
       hint: "Replace 'dont' with 'doesn't' or 'does not' (spelled exactly)."
     });
     feedback.push({
-      rule: "Capitalize days of the week ('Sundays')",
-      passed: hasCapitalSundays,
-      hint: "The proper noun 'Sundays' must be capitalized."
-    });
-    feedback.push({
       rule: "End the sentence with a period ('.')",
       passed: hasPeriod,
       hint: "Add a period at the very end of the sentence."
     });
   } else if (statementId === 's2' || statementId.toString().includes('s2')) {
-    // Statement 2: "their going to there house because they're car is broken"
-    const startsWithTheyre = /^They're\b/.test(norm);
-    const hasTheirHouse = /\btheir house\b/i.test(norm);
-    const hasTheirCar = /\btheir car\b/i.test(norm);
+    // Statement 2: "The dogs chased it's tail around in circles."
+    const hasCapitalThe = /^[T]he\b/.test(norm);
+    const hasDog = /\bdog\b/i.test(norm) && !/\bdogs\b/i.test(norm);
+    const hasItsTail = /\bits tail\b/i.test(norm);
     const hasPeriod = norm.endsWith('.');
 
     feedback.push({
-      rule: "Start with 'They're' (contraction of 'They are')",
-      passed: startsWithTheyre,
-      hint: "Use 'They're' to start the sentence (homophone fix)."
+      rule: "Capitalize the first letter of the sentence ('The')",
+      passed: hasCapitalThe,
+      hint: "Make sure 'The' starts with a capital 'T'."
     });
     feedback.push({
-      rule: "Use possessive 'their' for 'their house'",
-      passed: hasTheirHouse,
-      hint: "Change 'there house' to possessive 'their house'."
+      rule: "Use singular subject noun ('dog' instead of 'dogs')",
+      passed: hasDog,
+      hint: "Change 'dogs' to singular 'dog' to match the singular 'tail' and pronoun 'its'."
     });
     feedback.push({
-      rule: "Use possessive 'their' for 'their car'",
-      passed: hasTheirCar,
-      hint: "Change 'they're car' to possessive 'their car'."
+      rule: "Use correct possessive 'its' for ownership ('its tail')",
+      passed: hasItsTail,
+      hint: "Use possessive 'its' without an apostrophe. 'it's' is a contraction meaning 'it is'."
     });
     feedback.push({
       rule: "End the sentence with a period ('.')",
@@ -71,26 +65,20 @@ const analyzeGrammar = (statementId, text) => {
       hint: "Add a period at the very end of the sentence."
     });
   } else if (statementId === 's3' || statementId.toString().includes('s3')) {
-    // Statement 3: "the dog wagged its tail when it saw it's owner"
-    const startsWithThe = /^The\b/.test(norm);
-    const hasItsTail = /\bits tail\b/i.test(norm);
-    const hasItsOwner = /\bits owner\b/.test(norm); // case sensitive & no apostrophe
+    // Statement 3: "We should of gone to the store earlier."
+    const hasCapitalWe = /^[W]e\b/.test(norm);
+    const hasCorrectShouldHave = /\b(should have|should've)\b/i.test(norm) && /\b(should have|should've)\b/.test(norm);
     const hasPeriod = norm.endsWith('.');
 
     feedback.push({
-      rule: "Capitalize the first letter of the sentence ('The')",
-      passed: startsWithThe,
-      hint: "Make sure 'The' starts with a capital 'T'."
+      rule: "Capitalize the first letter of the sentence ('We')",
+      passed: hasCapitalWe,
+      hint: "Make sure 'We' starts with a capital 'W'."
     });
     feedback.push({
-      rule: "Use correct possessive 'its' for 'its tail'",
-      passed: hasItsTail,
-      hint: "'its' represents ownership. Ensure there is no apostrophe."
-    });
-    feedback.push({
-      rule: "Use correct possessive 'its' for 'its owner'",
-      passed: hasItsOwner,
-      hint: "'it's' means 'it is'. Change it to possessive 'its owner'."
+      rule: "Use correct modal verb helper ('should have' or 'should've')",
+      passed: hasCorrectShouldHave,
+      hint: "Replace the phonetically written 'should of' with grammatically correct 'should have' or 'should've'."
     });
     feedback.push({
       rule: "End the sentence with a period ('.')",

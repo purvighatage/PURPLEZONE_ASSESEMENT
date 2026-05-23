@@ -228,13 +228,16 @@ function App() {
 
       if (statementId === 's1') {
         correctionsList = [
-          "She doesn't like going to the store on Sundays.",
-          "She does not like going to the store on Sundays."
+          "She doesn't have any idea how to fix it.",
+          "She does not have any idea how to fix it."
         ];
       } else if (statementId === 's2') {
-        correctionsList = ["They're going to their house because their car is broken."];
+        correctionsList = ["The dog chased its tail around in circles."];
       } else if (statementId === 's3') {
-        correctionsList = ["The dog wagged its tail when it saw its owner."];
+        correctionsList = [
+          "We should have gone to the store earlier.",
+          "We should've gone to the store earlier."
+        ];
       }
 
       isCorrect = correctionsList.some(ans => ans.trim().replace(/\s+/g, ' ') === normInput);
@@ -254,30 +257,25 @@ function App() {
           hint: "Replace 'dont' with 'doesn't' or 'does not' (spelled exactly)."
         });
         grammarAnalysis.push({
-          rule: "Capitalize days of the week ('Sundays')",
-          passed: /\bSundays\b/.test(normInput),
-          hint: "The proper noun 'Sundays' must be capitalized."
-        });
-        grammarAnalysis.push({
           rule: "End the sentence with a period ('.')",
           passed: normInput.endsWith('.'),
           hint: "Add a period at the very end of the sentence."
         });
       } else if (statementId === 's2') {
         grammarAnalysis.push({
-          rule: "Start with 'They're' (contraction of 'They are')",
-          passed: /^They're\b/.test(normInput),
-          hint: "Use 'They're' to start the sentence (homophone fix)."
+          rule: "Capitalize the first letter of the sentence ('The')",
+          passed: /^[T]he\b/.test(normInput),
+          hint: "Make sure 'The' starts with a capital 'T'."
         });
         grammarAnalysis.push({
-          rule: "Use possessive 'their' for 'their house'",
-          passed: /\btheir house\b/i.test(normInput),
-          hint: "Change 'there house' to possessive 'their house'."
+          rule: "Use singular subject noun ('dog' instead of 'dogs')",
+          passed: /\bdog\b/i.test(normInput) && !/\bdogs\b/i.test(normInput),
+          hint: "Change 'dogs' to singular 'dog' to match the singular 'tail' and pronoun 'its'."
         });
         grammarAnalysis.push({
-          rule: "Use possessive 'their' for 'their car'",
-          passed: /\btheir car\b/i.test(normInput),
-          hint: "Change 'they're car' to possessive 'their car'."
+          rule: "Use correct possessive 'its' for ownership ('its tail')",
+          passed: /\bits tail\b/i.test(normInput),
+          hint: "Use possessive 'its' without an apostrophe. 'it's' is a contraction meaning 'it is'."
         });
         grammarAnalysis.push({
           rule: "End the sentence with a period ('.')",
@@ -286,19 +284,14 @@ function App() {
         });
       } else if (statementId === 's3') {
         grammarAnalysis.push({
-          rule: "Capitalize the first letter of the sentence ('The')",
-          passed: /^The\b/.test(normInput),
-          hint: "Make sure 'The' starts with a capital 'T'."
+          rule: "Capitalize the first letter of the sentence ('We')",
+          passed: /^[W]e\b/.test(normInput),
+          hint: "Make sure 'We' starts with a capital 'W'."
         });
         grammarAnalysis.push({
-          rule: "Use correct possessive 'its' for 'its tail'",
-          passed: /\bits tail\b/i.test(normInput),
-          hint: "'its' represents ownership. Ensure there is no apostrophe."
-        });
-        grammarAnalysis.push({
-          rule: "Use correct possessive 'its' for 'its owner'",
-          passed: /\bits owner\b/.test(normInput),
-          hint: "'it's' means 'it is'. Change it to possessive 'its owner'."
+          rule: "Use correct modal verb helper ('should have' or 'should've')",
+          passed: /\b(should have|should've)\b/i.test(normInput) && /\b(should have|should've)\b/.test(normInput),
+          hint: "Replace the phonetically written 'should of' with grammatically correct 'should have' or 'should've'."
         });
         grammarAnalysis.push({
           rule: "End the sentence with a period ('.')",
@@ -436,10 +429,44 @@ function App() {
 
         {/* View Router */}
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          {page === 'auth' ? (
+          {page === 'auth' && (
             <AuthPage onSubmit={handleAuth} error={authError} />
-          ) : (
-            <TestPage />
+          )}
+          {page === 'test' && (
+            <TestPage onEdit={() => setPage('edit')} />
+          )}
+          {page === 'edit' && (
+            <EditPage 
+              statements={statements} 
+              initialValues={currentCorrections}
+              onBack={() => setPage('test')}
+              onSubmit={(payload) => {
+                // Update corrections state
+                const updated = {};
+                payload.forEach(item => {
+                  updated[item.statementId] = item.correctedText;
+                });
+                setCurrentCorrections(prev => ({ ...prev, ...updated }));
+                handleSubmitCorrections(payload);
+              }}
+            />
+          )}
+          {page === 'result' && (
+            <ResultPage 
+              result={gradingResult}
+              username={user?.username}
+              onRetry={() => setPage('edit')}
+              onResetAll={() => {
+                // Reset state and return to dashboard
+                const resetCorrs = {};
+                statements.forEach(s => {
+                  resetCorrs[s._id || s.id] = '';
+                });
+                setCurrentCorrections(resetCorrs);
+                setGradingResult(null);
+                setPage('test');
+              }}
+            />
           )}
         </main>
 
