@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { User, Lock, KeyRound } from 'lucide-react';
 
 function AuthPage({ onSubmit, error }) {
   const [isRegister, setIsRegister] = useState(false);
@@ -72,17 +71,21 @@ function AuthPage({ onSubmit, error }) {
         left: 0,
         width: '100vw',
         height: '100vh',
-        // Unified full-screen background cover
-        backgroundImage: `linear-gradient(rgba(10, 5, 20, 0.12), rgba(10, 5, 20, 0.28)), url('/sunset-5536777_1920.png')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#FFFFFF', // Clean base background
         zIndex: 9999,
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden'
       }}
     >
+      {/* ==========================================
+          SPLIT-SCREEN RESPONSIVE BACKGROUND
+         ========================================== */}
+      <div className="split-bg-container">
+        <div className="split-bg-left" />
+        <div className="split-bg-right" />
+      </div>
+
       {/* ==========================================
           TOP WHITE HEADER BAR WITH LOGO
          ========================================== */}
@@ -217,21 +220,10 @@ function AuthPage({ onSubmit, error }) {
           }}
         >
           {/* Inputs Group - Centered vertically in the form area */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', justifyContent: 'center', flex: 1 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2.25rem', justifyContent: 'center', flex: 1 }}>
             
-            {/* Username Flat Input with User Icon */}
+            {/* Username Flat Input */}
             <div style={{ position: 'relative' }}>
-              <User 
-                size={18} 
-                style={{
-                  position: 'absolute',
-                  left: '4px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  color: '#A0AEC0',
-                  opacity: 0.8
-                }}
-              />
               <input
                 id="username"
                 type="text"
@@ -242,7 +234,7 @@ function AuthPage({ onSubmit, error }) {
                   width: '100%',
                   border: 'none',
                   borderBottom: '1px solid #E2E8F0',
-                  padding: '0.85rem 0.5rem 0.85rem 2.6rem',
+                  padding: '0.85rem 0.5rem', // Clean padding, no indent, matching mockup exactly
                   fontSize: '0.95rem',
                   color: '#2D3748',
                   background: 'transparent',
@@ -255,19 +247,8 @@ function AuthPage({ onSubmit, error }) {
               />
             </div>
 
-            {/* Password Flat Input with Padlock Icon */}
+            {/* Password Flat Input */}
             <div style={{ position: 'relative' }}>
-              <Lock 
-                size={18} 
-                style={{
-                  position: 'absolute',
-                  left: '4px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  color: '#A0AEC0',
-                  opacity: 0.8
-                }}
-              />
               <input
                 id="password"
                 type="password"
@@ -278,7 +259,7 @@ function AuthPage({ onSubmit, error }) {
                   width: '100%',
                   border: 'none',
                   borderBottom: '1px solid #E2E8F0',
-                  padding: '0.85rem 0.5rem 0.85rem 2.6rem',
+                  padding: '0.85rem 0.5rem',
                   fontSize: '0.95rem',
                   color: '#2D3748',
                   background: 'transparent',
@@ -294,17 +275,6 @@ function AuthPage({ onSubmit, error }) {
             {/* Confirm Password (Only in Register Mode) */}
             {isRegister && (
               <div className="fade-in" style={{ position: 'relative' }}>
-                <Lock 
-                  size={18} 
-                  style={{
-                    position: 'absolute',
-                    left: '4px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    color: '#A0AEC0',
-                    opacity: 0.8
-                  }}
-                />
                 <input
                   id="confirmPassword"
                   type="password"
@@ -315,7 +285,7 @@ function AuthPage({ onSubmit, error }) {
                     width: '100%',
                     border: 'none',
                     borderBottom: '1px solid #E2E8F0',
-                    padding: '0.85rem 0.5rem 0.85rem 2.6rem', // Balanced padding-left to match user/lock icon spaces
+                    padding: '0.85rem 0.5rem',
                     fontSize: '0.95rem',
                     color: '#2D3748',
                     background: 'transparent',
@@ -335,16 +305,16 @@ function AuthPage({ onSubmit, error }) {
             <button 
               type="submit" 
               style={{
-                background: '#E2E8F0', // Soft gray Figma button
+                background: '#E2E8F0', // Soft gray Figma button matching mockup exactly
                 color: '#4A5568', // Dark slate text
                 border: 'none',
-                borderRadius: '24px', // Rounded pill style
-                padding: '0.75rem 3.5rem', // Slightly wider button for visual weighting
+                borderRadius: '8px', // Rounded corners matching mockup exactly
+                padding: '0.75rem 3.5rem',
                 fontSize: '0.95rem',
                 fontWeight: 700,
                 cursor: 'pointer',
                 transition: 'all 0.25s',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.06)'
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
               }}
               onMouseEnter={(e) => {
                 e.target.style.background = '#CBD5E0';
