@@ -11,34 +11,28 @@ const API_BASE_URL = 'http://localhost:5000/api';
 const localStatementsSeed = [
   {
     id: "s1",
-    text: "she dont like going to the store on sundays",
-    explanation: "Capitalize the first word 'She' and the proper noun 'Sundays'. Use the correct subject-verb agreement and contraction 'doesn't' (or 'does not') instead of 'dont'. End with a period.",
+    text: "She dont have any idea how to fix it.",
+    explanation: "Use singular third-person subject agreement ('doesn't' or 'does not' instead of 'dont') and end with a period.",
     errors: [
-      { type: "capitalization", description: "Capitalize the first letter of the sentence ('she' -> 'She')." },
-      { type: "spelling/grammar", description: "Use 'doesn't' or 'does not' instead of 'dont' to match 'she' (singular third-person)." },
-      { type: "capitalization", description: "Days of the week must be capitalized ('sundays' -> 'Sundays')." },
-      { type: "punctuation", description: "Sentences must end with a period ('.')." }
+      { type: "spelling/grammar", description: "Use the singular third-person agreement 'doesn't' or 'does not' instead of 'dont' to match 'She'." },
+      { type: "punctuation", description: "Sentences must conclude with a period ('.')." }
     ]
   },
   {
     id: "s2",
-    text: "their going to there house because they're car is broken",
-    explanation: "Fix the homophone confusion: use 'They're' (They are) going to 'their' (possessive) house because 'their' (possessive) car is broken.",
+    text: "The dogs chased it's tail around in circles.",
+    explanation: "Use possessive 'its' instead of the contraction 'it's' (it is) and align third-person singular noun agreement ('dog' -> 'its tail').",
     errors: [
-      { type: "homophone", description: "Use 'They're' (contraction of 'they are') at the beginning instead of 'their'." },
-      { type: "homophone", description: "Use 'their' (possessive) house instead of 'there' (location)." },
-      { type: "homophone", description: "Use 'their' (possessive) car instead of 'they're' (contraction)." },
-      { type: "punctuation", description: "Sentences must end with a period ('.')." }
+      { type: "grammar", description: "Change 'it's' to possessive 'its' to indicate ownership." },
+      { type: "grammar", description: "Match the singular pronoun 'its' with singular 'dog'." }
     ]
   },
   {
     id: "s3",
-    text: "the dog wagged its tail when it saw it's owner",
-    explanation: "Capitalize 'The'. Use the possessive pronoun 'its' instead of the contraction 'it's' (it is) when describing ownership of the tail and owner.",
+    text: "We should of gone to the store earlier.",
+    explanation: "Use the correct modal helper verb 'should have' (or contraction 'should've') instead of 'should of'.",
     errors: [
-      { type: "capitalization", description: "Capitalize the first letter of the sentence ('the' -> 'The')." },
-      { type: "grammar", description: "Use the possessive 'its' instead of the contraction 'it's' (which means 'it is') before 'owner'." },
-      { type: "punctuation", description: "Sentences must end with a period ('.')." }
+      { type: "spelling/grammar", description: "Replace 'should of' with 'should have' (or 'should've') for correct conditional past tense." }
     ]
   }
 ];
@@ -355,12 +349,18 @@ function App() {
 
   return (
     <>
-      {/* Background Orbs */}
-      <div className="ambient-bg">
-        <div className="ambient-orb orb-1"></div>
-        <div className="ambient-orb orb-2"></div>
-        <div className="ambient-orb orb-3"></div>
-      </div>
+      {/* Dynamic Background: Solid Slate-Gray when logged in, otherwise base for Split Auth */}
+      <div 
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: user ? '#4A5568' : '#FFFFFF',
+          zIndex: -1
+        }}
+      />
 
       <div className="container">
         {/* Unified Corporate Header Bar */}
