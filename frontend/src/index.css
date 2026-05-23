@@ -1,0 +1,347 @@
+/* --- Design Tokens & Global Styles --- */
+:root {
+  --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* HSL Tailored Theme Palettes */
+  --bg-deep-obsidian: 260 40% 6%;     /* #0a0512 */
+  --bg-card-glass: 262 38% 11%;       /* rgba(20, 13, 33, 0.6) */
+  --primary-glow: 263 90% 60%;        /* #8B5CF6 (Neon Violet) */
+  --secondary-glow: 327 90% 60%;      /* #EC4899 (Electric Pink) */
+  --success-glow: 142 70% 50%;        /* #10B981 (Emerald Green) */
+  --warning-glow: 37 90% 55%;         /* #F59E0B (Amber Gold) */
+  --error-glow: 350 80% 55%;          /* #EF4444 (Crimson Red) */
+  
+  --text-primary: 0 0% 98%;           /* Pure White */
+  --text-secondary: 260 20% 70%;      /* Soft Muted Lavender */
+  --text-muted: 260 10% 50%;          /* Slate Lavender */
+  
+  --border-glass: rgba(139, 92, 246, 0.15);
+  --border-glass-active: rgba(236, 72, 153, 0.4);
+  
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: #06020c;
+  color: hsl(var(--text-primary));
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* --- Premium Background Backdrop & Orbs --- */
+.ambient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+  background-image: linear-gradient(rgba(10, 5, 20, 0.12), rgba(10, 5, 20, 0.28)), url('/sunset-5536777_1920.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.18;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.orb-1 {
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, hsl(var(--primary-glow)) 0%, transparent 70%);
+  top: -10%;
+  right: -10%;
+  animation: floatOrb 25s infinite alternate ease-in-out;
+}
+
+.orb-2 {
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, hsl(var(--secondary-glow)) 0%, transparent 70%);
+  bottom: -15%;
+  left: -15%;
+  animation: floatOrb 30s infinite alternate-reverse ease-in-out;
+}
+
+.orb-3 {
+  width: 35vw;
+  height: 35vw;
+  background: radial-gradient(circle, hsl(260, 80%, 50%) 0%, transparent 70%);
+  top: 40%;
+  left: 30%;
+  animation: floatOrb 20s infinite alternate ease-in-out;
+}
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4%, 5%) scale(1.1); }
+  100% { transform: translate(-3%, -4%) scale(0.95); }
+}
+
+/* --- Scrollbar Customization --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--bg-deep-obsidian));
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(236, 72, 153, 0.5);
+}
+
+/* --- Glassmorphism UI Components --- */
+.glass-panel {
+  background: rgba(20, 13, 33, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.3),
+              inset 0 0 10px rgba(139, 92, 246, 0.05);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel:hover {
+  border-color: rgba(139, 92, 246, 0.25);
+  box-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.4),
+              inset 0 0 15px rgba(139, 92, 246, 0.1);
+}
+
+.glass-panel.active {
+  border-color: var(--border-glass-active);
+  box-shadow: 0 0 30px rgba(236, 72, 153, 0.15),
+              0 12px 40px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* --- Typography and Layout Utility --- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-text {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, hsl(var(--text-primary)) 20%, hsl(var(--primary-glow)) 50%, hsl(var(--secondary-glow)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: linear-gradient(135deg, hsl(var(--primary-glow)), hsl(var(--secondary-glow)));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+}
+
+/* --- Navigation & Buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, hsl(var(--primary-glow)), hsl(var(--secondary-glow)));
+  color: white;
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.25);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(236, 72, 153, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: hsl(var(--text-primary));
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.btn-outline-purple {
+  background: transparent;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: hsl(var(--text-secondary));
+}
+
+.btn-outline-purple:hover {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: hsl(var(--primary-glow));
+  color: white;
+}
+
+/* --- Form Fields --- */
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: hsl(var(--text-secondary));
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: white;
+  font-size: 0.95rem;
+  transition: all 0.3s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: hsl(var(--primary-glow));
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.15);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* --- Card Grids --- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* --- Alert Messages --- */
+.alert {
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid transparent;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.alert-error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.2);
+  color: hsl(var(--error-glow));
+}
+
+.alert-success {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.2);
+  color: hsl(var(--success-glow));
+}
+
+/* --- Micro-Animations --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+  70% { box-shadow: 0 0 20px 10px rgba(139, 92, 246, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Staggered Delay for child cards */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+
+/* Responsive split-screen auth banner hide */
+@media (max-width: 860px) {
+  .auth-left-banner {
+    display: none !important;
+  }
+}
+
+/* Glass panel auth floating coordinates */
+.glass-panel-auth {
+  left: 68%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 2rem);
+  max-width: 480px;
+}
+
+@media (max-width: 860px) {
+  .glass-panel-auth {
+    left: 50% !important;
+    max-width: 420px;
+    padding: 2.5rem 2rem !important;
+  }
+}
